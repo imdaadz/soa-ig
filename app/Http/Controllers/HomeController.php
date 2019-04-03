@@ -20,13 +20,21 @@ class HomeController extends Controller
 			$linked = array();
 			if(!empty($matchs)){
 				foreach ($matchs as $match) {
-					if($match->product_type == 'tokopedia')
+					if($match->product_type == 'tokopedia'){
 						$tokopedia = $match->tokopedia;
 						$linked[] = array(
 							'type' => $match->product_type,
 							'link' => $tokopedia->tokopedia_link,
 							'price' => $tokopedia->tokopedia_price
 						);
+					}elseif($match->product_type == 'shopee'){
+						$tokopedia = $match->tokopedia;
+						$linked[] = array(
+							'type' => $match->product_type,
+							'link' => $tokopedia->shopee_link,
+							'price' => 0
+						);
+					}
 				}
 			}
 			$ig_data[] = array(

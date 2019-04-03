@@ -40,7 +40,7 @@ class ImportTokopedia extends Command
     public function handle()
     {
         $tokped = new Tokopedia();
-        $url = "https://www.tokopedia.com/logitech";
+        $url = "https://www.tokopedia.com/".env('TOKOPEDIA_ACCOUNT');
         $crawler = Goutte::request('GET', $url);
         
         $tokopedia_id = $crawler->filter('.css-w20258')->each(function ($node) {

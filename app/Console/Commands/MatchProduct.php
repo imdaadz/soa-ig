@@ -39,9 +39,14 @@ class MatchProduct extends Command
     {
         $match = new Match();
         $account = 'imdaadz';
-        $linked_product = $match->match_product($account);
-        if(!empty($linked_product))
-            Match::insert($linked_product);
+        $source = ['tokopedia','shopee'];
+        foreach ($source as $key => $value) {
+            $linked_product = $match->match_product($account,$value);
+            if(!empty($linked_product))
+                Match::insert($linked_product);
+        }
+      
+
         echo "Success link account : ".$account."\n";
     }
 }

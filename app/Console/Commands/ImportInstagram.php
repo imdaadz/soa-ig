@@ -42,7 +42,7 @@ class ImportInstagram extends Command
         $ig = new Instagram();
         $insert = array();
         $ids = array();
-        $user = 'imdaadz';
+        $user = env('INSTAGRAM_ACCOUNT');
         foreach($ig->getUserFeed($user) as $row){
             $caption = $ig->checkCaption($row['caption']);          
             if(!empty($caption)){

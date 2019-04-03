@@ -38,7 +38,38 @@ class ImportShopee extends Command
     public function handle()
     {
         $shopee = new Shopee();
-        $username = 'logitechstore';
-        print_r($shopee->getShopID($username));
+        $shopee_id = env('SHOPEE_ACCOUNT');
+        
+        $page = 1;
+        do {
+            $shopee_res = $shopee->getProducts($shopee_id,$page);
+            if(!empty($shopee_res['items'])){
+
+                $insert = array();
+                $ids = array();
+                foreach ($shopee_res['items'] as $row) {
+                    $ids[] = $row['itemid'];
+                    $insert[$row['itemid']] = array(
+                        'merchant_id' => $shopee_id,
+                        'product_id' => $row['itemid'],
+                        'product_name' => $row['name'],
+                        'shopee_link' => 'https://shopee.co.id/--i.'.$row['shopid'].'.'.$row['itemid']
+                    );
+                }
+                $checkproduct = $shopee->checkProductID($ids);
+                if (!empty($checkproduct)){
+                    foreach ($checkproduct as $row) {
+                        if($insert[$row->product_id]){
+                            unset($insert[$row->product_id]);
+                        }
+                    }
+                }
+                if(!empty($insert))
+                    Shopee::insert($insert);
+            }else{
+                break;
+            }
+            $page++;
+        }while(true);
     }
 }

@@ -8,26 +8,28 @@ class Match extends Model{
 	protected $table = 'match_product';
 
 	public function match_product($account, $source = 'tokopedia'){
-		$col = '';
-		if($source == 'tokopedia'){
-			$col = 'product_name';
-		}
+		$col = 'product_name';
+
 		$res = array();
 		$items = DB::table('instagrams')->where('instagram_user', $account)->get();
 		foreach ($items as $row) {
 			$product =$this->search_match($source,$col,$row->product);
 			if(!empty($product[0])){
-				$res[] = array(
-					'instagram_id' => $row->id,
-					'product_id' => $product[0]->id,
-					'product_type' => $source
-				);
+				if(empty($this->checkExist($row->id, $product[0]->id, $source)))
+					$res[] = array(
+						'instagram_id' => $row->id,
+						'product_id' => $product[0]->id,
+						'product_type' => $source
+					);
 			}
 		}
 		return $res;
 		
 	}
-
+	private function checkExist($instagram_id, $product_id, $product_type){
+		$result = DB::select('SELECT * FROM match_product WHERE instagram_id=? AND product_id=? AND product_type=? LIMIT 1',[$instagram_id, $product_id, $product_type]);
+		return $result;
+	}
 	public function search_match($table, $col, $search){
 		$result = DB::select("SELECT * FROM ".$table." WHERE MATCH(".$col.") AGAINST(? IN NATURAL LANGUAGE MODE) LIMIT 1",[$search]);
 		return $result;
@@ -36,5 +38,9 @@ class Match extends Model{
 	public function tokopedia()
     {
         return $this->belongsTo('App\Http\Lib\Tokopedia','product_id','id');
+    }
+    public function shopee()
+    {
+        return $this->belongsTo('App\Http\Lib\Shopee','product_id','id');
     }
 }
