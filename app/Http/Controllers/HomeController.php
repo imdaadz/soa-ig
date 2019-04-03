@@ -28,10 +28,10 @@ class HomeController extends Controller
 							'price' => $tokopedia->tokopedia_price
 						);
 					}elseif($match->product_type == 'shopee'){
-						$tokopedia = $match->tokopedia;
+						$shopee = $match->shopee;
 						$linked[] = array(
 							'type' => $match->product_type,
-							'link' => $tokopedia->shopee_link,
+							'link' => $shopee->shopee_link,
 							'price' => 0
 						);
 					}
