@@ -14,6 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\ImportTokopedia::class,
+        Commands\ImportInstagram::class,
+        Commands\ImportShopee::class,
     ];
 
     /**
