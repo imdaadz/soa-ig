@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Http\Lib\Instagram;
+use Artisan;
 
 class ImportInstagram extends Command
 {
@@ -70,6 +71,7 @@ class ImportInstagram extends Command
         if(!empty($insert))
             Instagram::insert($insert);
 
+        Artisan::call("import:match");
         echo "Success Import for : ".$user."\n";
     }
 }
