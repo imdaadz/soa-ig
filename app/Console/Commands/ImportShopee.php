@@ -71,5 +71,7 @@ class ImportShopee extends Command
             }
             $page++;
         }while(true);
+        echo "Success import data shopee for : ".$shopee_id."\n";
+
     }
 }

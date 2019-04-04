@@ -79,6 +79,6 @@ class ImportTokopedia extends Command
             $page++;
             
         } while(true);
-        echo "Success import data for : ".$url."\n";
+        echo "Success import data tokopedia for : ".$url."\n";
     }
 }
