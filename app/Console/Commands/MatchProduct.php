@@ -38,8 +38,8 @@ class MatchProduct extends Command
     public function handle()
     {
         $match = new Match();
-        $account = 'imdaadz';
-        $source = ['tokopedia','shopee'];
+        $account = env('INSTAGRAM_ACCOUNT');
+        $source = ['tokopedia','shopee','blibli','jdid','bukapalak','jakartanotebook'];
         foreach ($source as $key => $value) {
             $linked_product = $match->match_product($account,$value);
             if(!empty($linked_product))

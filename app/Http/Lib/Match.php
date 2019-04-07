@@ -9,7 +9,6 @@ class Match extends Model{
 
 	public function match_product($account, $source = 'tokopedia'){
 		$col = 'product_name';
-
 		$res = array();
 		$items = DB::table('instagrams')->where('instagram_user', $account)->get();
 		foreach ($items as $row) {
@@ -31,7 +30,11 @@ class Match extends Model{
 		return $result;
 	}
 	public function search_match($table, $col, $search){
-		$result = DB::select("SELECT * FROM ".$table." WHERE MATCH(".$col.") AGAINST(? IN NATURAL LANGUAGE MODE) LIMIT 1",[$search]);
+		$must_table = ['tokopedia','shopee'];
+		if(in_array($table, $must_table))
+			$result = DB::select("SELECT * FROM ".$table." WHERE MATCH(".$col.") AGAINST(? IN NATURAL LANGUAGE MODE) LIMIT 1",[$search]);
+		else
+			$result = DB::select("SELECT * FROM other_marketplace WHERE source=? AND MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE) LIMIT 1",[$table,$search]);
 		return $result;
 	}
 
@@ -42,5 +45,10 @@ class Match extends Model{
     public function shopee()
     {
         return $this->belongsTo('App\Http\Lib\Shopee','product_id','id');
+    }
+
+     public function other()
+    {
+        return $this->belongsTo('App\Http\Lib\Others','product_id','id');
     }
 }

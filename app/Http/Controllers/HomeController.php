@@ -34,6 +34,13 @@ class HomeController extends Controller
 							'link' => $shopee->shopee_link,
 							'price' => 0
 						);
+					}else{
+						$other = $match->other;
+						$linked[] = array(
+							'type' => $match->product_type,
+							'link' => $other->link,
+							'price' => 0
+						);
 					}
 				}
 			}
@@ -43,9 +50,36 @@ class HomeController extends Controller
 				'html' => $content['html']
 			);
 		}
+		$source = array(
+			'tokopedia' => array(
+				'button' => 'success',
+				'from' => 'Tokopedia'
+			),
+			'shopee' => array(
+				'button' => 'warning',
+				'from' => 'Shopee'
+			),
+			'blibli' => array(
+				'button' => 'primary',
+				'from' => 'Blibli'
+			),
+			'jdid' => array(
+				'button' => 'danger',
+				'from' => 'JD.ID'
+			),
+			'jakartanotebook' => array(
+				'button' => 'danger',
+				'from' => 'Jakartanotebook'
+			),
+			'bukalapak' => array(
+				'button' => 'danger',
+				'from' => 'Bukalapak'
+			),
+		);
 		// print_r($ig_data);
 		return view('main', [
-			'data' => $ig_data
+			'data' => $ig_data,
+			'source_list' => $source
 		]);
 	}
 }
