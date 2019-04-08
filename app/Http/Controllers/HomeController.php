@@ -12,7 +12,7 @@ class HomeController extends Controller
 		$client = new \GuzzleHttp\Client();
 		$endpoint = "https://api.instagram.com/oembed/?url=http://instagr.am/p/";
 
-		foreach (Instagram::where('instagram_user','imdaadz')->get() as $row) {
+		foreach (Instagram::where('instagram_user','imdaadz')->orderBy('id', 'desc')->get() as $row) {
 			$response = $client->request('GET', $endpoint.$row->shortcode);
 			$content = json_decode($response->getBody(), true);
 			
