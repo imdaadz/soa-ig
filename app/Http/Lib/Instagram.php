@@ -30,7 +30,7 @@ class Instagram extends Model{
 	}
 
 	public function checkMediaID($media_ids){
-		$items = DB::table($this->table)->whereIn('media_ig_id', $media_ids)->get();
+		$items = DB::table($this->table)->whereIn('media_ig_id', $media_ids)->orderBy('id', 'desc')->get();
 		return $items;
 	}
 	
