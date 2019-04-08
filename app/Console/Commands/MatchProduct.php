@@ -39,7 +39,7 @@ class MatchProduct extends Command
     {
         $match = new Match();
         $account = env('INSTAGRAM_ACCOUNT');
-        $source = ['tokopedia','shopee','blibli','jdid','bukapalak','jakartanotebook'];
+        $source = ['tokopedia','shopee','blibli','jdid','bukalapak','jakartanotebook'];
         foreach ($source as $key => $value) {
             $linked_product = $match->match_product($account,$value);
             if(!empty($linked_product))
